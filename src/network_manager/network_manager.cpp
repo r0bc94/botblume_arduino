@@ -31,7 +31,7 @@ wl_status_t NetworkManager::getWiFiStatus() {
   return WiFi.status();
 }
 
-void NetworkManager::connectMqtt(char *mqttAddress, int mqttPort) {
+bool NetworkManager::connectMqtt(char *mqttAddress, int mqttPort) {
   this->mqttClient.setServer(mqttAddress, mqttPort);
 
   Serial.printf("Connecting to the MQTT Server on: %s:%d\n", mqttAddress, mqttPort);
@@ -41,9 +41,15 @@ void NetworkManager::connectMqtt(char *mqttAddress, int mqttPort) {
     Serial.printf("%d ", mqttConnectionCounter);
     this->mqttClient.connect("esp");
     delay(1000);
+
+    if (mqttConnectionCounter == MAX_MQTT_CONNECTION_RETRY_COUNT) {
+      return false;
+    }
   } 
 
   Serial.printf("MQTT - Connection established!\n");
+
+  return true;
 }
 
 boolean NetworkManager::isMqttConnected() {

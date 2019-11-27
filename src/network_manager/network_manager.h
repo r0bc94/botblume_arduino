@@ -5,6 +5,7 @@
 #include "../types/message.h"
 
 #define MAX_WIFI_CONNECTION_RETRY_COUNT   1000
+#define MAX_MQTT_CONNECTION_RETRY_COUNT   100
 
 enum MessageSendState {
   MSG_SUCCESS,
@@ -36,14 +37,13 @@ class NetworkManager {
      */
     wl_status_t connectWiFi(char *ssid, char *password);
 
-    // todo: add correct return type
     /**
      * Establishes the connection to a given MQTT - Server. 
      * 
      * @param mqttAddress: Address of the MQTT Server
      * @param mqttPort: Port on which the MQTT Server runs
      */
-    void connectMqtt(char *mqttAddress, int mqttPort);
+    bool connectMqtt(char *mqttAddress, int mqttPort);
     
     /**
       * Returns the current status of the wifi connection.
