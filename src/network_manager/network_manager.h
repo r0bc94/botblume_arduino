@@ -4,6 +4,15 @@
 
 #include "../types/message.h"
 
+#define MAX_WIFI_CONNECTION_RETRY_COUNT   1000
+
+enum MessageSendState {
+  MSG_SUCCESS,
+  MSG_WIFI_NOT_CONNECTED,
+  MSG_MQTT_NOT_CONNECTED,
+  MSG_UKNOWN_ERROR,
+};
+
 class NetworkManager {
   private:
     WiFiClient wifiClient;
@@ -12,10 +21,20 @@ class NetworkManager {
     char *ssid;
     char *password;
 
+    bool wifiConnected;
+
+    char *buildMqttMessage(struct Message *message);
+
   public:
-    NetworkManager(char *ssid, char *password):
-      ssid(ssid),
-      password(password){};
+    NetworkManager();
+
+    /**
+     * Establishes the connection with a wifi network.
+     * 
+     * @param ssid: ssid of the network
+     * @param password: password of the network
+     */
+    wl_status_t connectWiFi(char *ssid, char *password);
 
     // todo: add correct return type
     /**
@@ -26,24 +45,21 @@ class NetworkManager {
      */
     void connectMqtt(char *mqttAddress, int mqttPort);
     
-    // todo add correct return type
     /**
       * Returns the current status of the wifi connection.
       */
-    void getWiFiStatus();
+    wl_status_t getWiFiStatus();
 
-    // todo add correct return type
     /**
       * Returns the current status of the connection to the given mqtt server.
       */
-    void getMqttStatus();
+    boolean isMqttConnected();
 
-    // todo: add an enum which describes the message status.
     /**
       * Publishes the provided message to the connected MQTT - Server.
       * 
       * @param message message which should be send to the MQTT - Server.
       * @param topic defines the topic for the published message.
       */
-    void sendMessage(struct Message *message, char *topic);
+    MessageSendState sendMessage(struct Message *message, char *topic);
 };
