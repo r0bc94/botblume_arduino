@@ -20,7 +20,9 @@ wl_status_t NetworkManager::connectWiFi(char *ssid, char *password) {
   } 
 
   this->wifiConnected = true;
-  Serial.printf("WiFi Connection Established!\nMy IP - Address is: %s\n", WiFi.localIP());
+  Serial.printf("WiFi Connection Established!\nMy IP - Address is:\n");
+  Serial.print(WiFi.localIP());
+  Serial.println();
 
   return WL_CONNECTED;
 }
