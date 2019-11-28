@@ -24,7 +24,7 @@ class NetworkManager {
 
     bool wifiConnected;
 
-    char *buildMqttMessage(struct Message *message);
+    const char *buildMqttMessage(struct Message *message);
 
   public:
     NetworkManager();

@@ -70,12 +70,12 @@ MessageSendState NetworkManager::sendMessage(struct Message *message, char *topi
     return MSG_MQTT_NOT_CONNECTED;
   } 
 
-  char *messageToSend = this->buildMqttMessage(message);
+  const char *messageToSend = this->buildMqttMessage(message);
   bool sendState = this->mqttClient.publish(topic, messageToSend);
 
   return sendState ? MSG_SUCCESS : MSG_UKNOWN_ERROR;
 }
 
-char *NetworkManager::buildMqttMessage(struct Message *message) {
-  return (char*) (message->percentage + "\n" + message->originalValue);
+const char *NetworkManager::buildMqttMessage(struct Message *message) {
+  return (String(message->percentage) + "\n" + String(message->originalValue)).c_str();
 }
