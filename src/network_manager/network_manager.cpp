@@ -1,8 +1,6 @@
 #include "network_manager.h"
 
-NetworkManager::NetworkManager() {
-  this->mqttClient = PubSubClient(this->wifiClient);
-} 
+NetworkManager::NetworkManager() {} 
 
 wl_status_t NetworkManager::connectWiFi(const char *ssid, const char *password) {
   WiFi.begin(ssid, password);
@@ -19,7 +17,14 @@ wl_status_t NetworkManager::connectWiFi(const char *ssid, const char *password) 
     }
   } 
 
+  /**
+   * We actually have to set the pubsub client here, since the
+   * WiFi Client needs to be configured before creating the 
+   * PubSubClient.
+   */
+  this->mqttClient = PubSubClient(this->wifiClient);
   this->wifiConnected = true;
+
   Serial.printf("WiFi Connection Established!\nMy IP - Address is:");
   Serial.print(WiFi.localIP());
   Serial.println();
