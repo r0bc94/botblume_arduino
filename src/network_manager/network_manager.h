@@ -35,7 +35,7 @@ class NetworkManager {
      * @param ssid: ssid of the network
      * @param password: password of the network
      */
-    wl_status_t connectWiFi(char *ssid, char *password);
+    wl_status_t connectWiFi(const char *ssid, const char *password);
 
     /**
      * Establishes the connection to a given MQTT - Server. 
@@ -43,7 +43,7 @@ class NetworkManager {
      * @param mqttAddress: Address of the MQTT Server
      * @param mqttPort: Port on which the MQTT Server runs
      */
-    bool connectMqtt(char *mqttAddress, int mqttPort);
+    bool connectMqtt(const char *mqttAddress, const int mqttPort);
     
     /**
       * Returns the current status of the wifi connection.

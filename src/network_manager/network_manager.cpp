@@ -4,7 +4,7 @@ NetworkManager::NetworkManager() {
   this->mqttClient = PubSubClient(this->wifiClient);
 } 
 
-wl_status_t NetworkManager::connectWiFi(char *ssid, char *password) {
+wl_status_t NetworkManager::connectWiFi(const char *ssid, const char *password) {
   WiFi.begin(ssid, password);
   Serial.printf("Connecting to %s ... \n", ssid);
 
@@ -20,7 +20,7 @@ wl_status_t NetworkManager::connectWiFi(char *ssid, char *password) {
   } 
 
   this->wifiConnected = true;
-  Serial.printf("WiFi Connection Established!\nMy IP - Address is:\n");
+  Serial.printf("WiFi Connection Established!\nMy IP - Address is:");
   Serial.print(WiFi.localIP());
   Serial.println();
 
@@ -31,7 +31,7 @@ wl_status_t NetworkManager::getWiFiStatus() {
   return WiFi.status();
 }
 
-bool NetworkManager::connectMqtt(char *mqttAddress, int mqttPort) {
+bool NetworkManager::connectMqtt(const char *mqttAddress, int mqttPort) {
   this->mqttClient.setServer(mqttAddress, mqttPort);
 
   Serial.printf("Connecting to the MQTT Server on: %s:%d\n", mqttAddress, mqttPort);
