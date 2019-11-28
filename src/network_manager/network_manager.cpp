@@ -61,7 +61,7 @@ boolean NetworkManager::isMqttConnected() {
   return this->mqttClient.connected();
 }
 
-MessageSendState NetworkManager::sendMessage(struct Message *message, String topic) {
+MessageSendState NetworkManager::sendMessage(struct Message *message, const char *topic) {
   if (!this->wifiConnected) {
     return MSG_WIFI_NOT_CONNECTED;
   }

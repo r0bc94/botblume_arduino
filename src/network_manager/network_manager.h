@@ -61,5 +61,5 @@ class NetworkManager {
       * @param message message which should be send to the MQTT - Server.
       * @param topic defines the topic for the published message.
       */
-    MessageSendState sendMessage(struct Message *message, String topic);
+    MessageSendState sendMessage(struct Message *message, const char *topic);
 };
