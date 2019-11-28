@@ -61,7 +61,7 @@ boolean NetworkManager::isMqttConnected() {
   return this->mqttClient.connected();
 }
 
-MessageSendState NetworkManager::sendMessage(struct Message *message, char *topic) {
+MessageSendState NetworkManager::sendMessage(struct Message *message, String topic) {
   if (!this->wifiConnected) {
     return MSG_WIFI_NOT_CONNECTED;
   }
@@ -71,7 +71,7 @@ MessageSendState NetworkManager::sendMessage(struct Message *message, char *topi
   } 
 
   const char *messageToSend = this->buildMqttMessage(message);
-  bool sendState = this->mqttClient.publish(topic, messageToSend);
+  bool sendState = this->mqttClient.publish(topic.c_str(), messageToSend);
 
   return sendState ? MSG_SUCCESS : MSG_UKNOWN_ERROR;
 }
