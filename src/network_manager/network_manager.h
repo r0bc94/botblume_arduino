@@ -7,6 +7,12 @@
 #define MAX_WIFI_CONNECTION_RETRY_COUNT   1000
 #define MAX_MQTT_CONNECTION_RETRY_COUNT   100
 
+enum MQTTConnectState {
+  MQTT_CON_SUCCESS,
+  MQTT_CON_TIMEOUT,
+  MQTT_CON_NO_WIFI,
+};
+
 enum MessageSendState {
   MSG_SUCCESS,
   MSG_WIFI_NOT_CONNECTED,
@@ -43,7 +49,7 @@ class NetworkManager {
      * @param mqttAddress: Address of the MQTT Server
      * @param mqttPort: Port on which the MQTT Server runs
      */
-    bool connectMqtt(const char *mqttAddress, const int mqttPort);
+    MQTTConnectState connectMqtt(const char *mqttAddress, const int mqttPort);
     
     /**
       * Returns the current status of the wifi connection.
