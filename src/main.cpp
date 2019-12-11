@@ -32,9 +32,25 @@ void loop() {
   Serial.println(msg->percentage);
   Serial.println();
 
-  netman.sendMessage(msg, TOPIC);
-  free(msg);
+  MessageSendState result = netman.sendMessage(msg, TOPIC);
+  switch(result) {
+    case MSG_MQTT_NOT_CONNECTED:
+      Serial.println("MQTT Connection Lost");
+      break;
 
+    case MSG_WIFI_NOT_CONNECTED:
+      Serial.println("WIFI Connection Lost");
+      break;
+
+    case MSG_SUCCESS:
+      Serial.println("Success");
+      break;
+
+    default:
+      Serial.println("Unknown Error");
+  }
+
+  free(msg);
   delay(DELAY);
   // put your main code here, to run repeatedly:
 }
