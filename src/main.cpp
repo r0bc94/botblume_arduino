@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "network_manager/network_manager.h"
+#include "water_level_measure/water_level_measure.h"
 #include "types/message.h"
 
 const char* ssid     = "~PrettyFlyForAWiFi~";         // The SSID (name) of the Wi-Fi network you want to connect to
@@ -23,13 +24,14 @@ void setup() {
 }
 
 void loop() {
-  struct Message msg;
-  msg.originalValue = 100;
-  msg.percentage = 50;
+  struct Message *msg = getMeasurement(A0);
+  Serial.println(msg->originalValue);
+  Serial.println(msg->percentage);
+  Serial.println();
 
-  Serial.println("Sending Test Message");
-  Serial.println(netman.sendMessage(&msg, "test"));
+  netman.sendMessage(msg, "test");
+  free(msg);
 
-  delay(5000);
+  delay(2000);
   // put your main code here, to run repeatedly:
 }
