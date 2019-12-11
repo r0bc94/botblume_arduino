@@ -23,10 +23,9 @@ __UINT8_TYPE__ getAggregatedValue(__UINT8_TYPE__ rawValue) {
     if (rawValue <= CLAMP_LEFT_VALUE) {
         return CLAMP_LEFT_VALUE;
     } else if (rawValue >= CLAMP_RIGHT_VALUE) {
-        return 100
-        ;
+        return 100;
     } else {
         //todo: The denominator is actually dependend of the LEFT_CLAMP value.
-        return (__INT8_TYPE__) (1 / 4) * rawValue;
+        return (__INT8_TYPE__) (rawValue / 4);
     }
 }
