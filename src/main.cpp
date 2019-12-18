@@ -36,6 +36,7 @@ void loop() {
   switch(result) {
     case MSG_MQTT_NOT_CONNECTED:
       Serial.println("MQTT Connection Lost");
+      netman.reconnectMqtt();
       break;
 
     case MSG_WIFI_NOT_CONNECTED:
