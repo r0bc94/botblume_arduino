@@ -1,6 +1,8 @@
 #include "network_manager.h"
 
-NetworkManager::NetworkManager() {} 
+NetworkManager::NetworkManager() {
+  mqttConnectionMade = false;
+} 
 
 wl_status_t NetworkManager::connectWiFi(const char *ssid, const char *password) {
   WiFi.begin(ssid, password);
@@ -39,26 +41,21 @@ wl_status_t NetworkManager::getWiFiStatus() {
 MQTTConnectState NetworkManager::connectMqtt(const char *mqttAddress, int mqttPort) {
   this->mqttClient.setServer(mqttAddress, mqttPort);
 
-  if (WiFi.status() != WL_CONNECTED) {
-    return MQTT_CON_NO_WIFI;
-  }
-
   Serial.printf("Connecting to the MQTT Server on: %s:%d\n", mqttAddress, mqttPort);
+  MQTTConnectState returnCode = this->connectMqtt();
+  this->mqttConnectionMade = true;
 
-  unsigned int mqttConnectionCounter = 1;
-  while(!this->mqttClient.connected()) {
-    Serial.printf("%d ", mqttConnectionCounter);
-    this->mqttClient.connect("esp");
-    delay(1000);
+  return returnCode;
+}
 
-    if (mqttConnectionCounter == MAX_MQTT_CONNECTION_RETRY_COUNT) {
-      return MQTT_CON_TIMEOUT;
-    }
-  } 
-
-  Serial.printf("MQTT - Connection established!\n");
-
-  return MQTT_CON_SUCCESS;
+MQTTConnectState NetworkManager::reconnectMqtt() {
+  if (!this->mqttConnectionMade) {
+    Serial.println("MQTT - Connection was never established!");
+    return MQTT_CON_NO_CON_MADE; 
+  }
+  
+  Serial.println("Trying to reestablish the Connection with the MQTT - Server");
+  return this->connectMqtt();
 }
 
 boolean NetworkManager::isMqttConnected() {
@@ -84,4 +81,26 @@ String NetworkManager::buildMqttMessage(struct Message *message) {
   String str = String();
   str = String(message->percentage) + "\n" + String(message->originalValue);
   return str;
+}
+
+MQTTConnectState NetworkManager::connectMqtt() {
+
+ if (WiFi.status() != WL_CONNECTED) {
+  return MQTT_CON_NO_WIFI;
+ }
+
+ unsigned int mqttConnectionCounter = 1;
+  while(!this->mqttClient.connected()) {
+    Serial.printf("%d ", mqttConnectionCounter);
+    this->mqttClient.connect("esp");
+    delay(1000);
+
+    if (mqttConnectionCounter == MAX_MQTT_CONNECTION_RETRY_COUNT) {
+      return MQTT_CON_TIMEOUT;
+    }
+  } 
+
+  Serial.printf("MQTT - Connection established!\n");
+
+  return MQTT_CON_SUCCESS;
 }

@@ -11,6 +11,7 @@ enum MQTTConnectState {
   MQTT_CON_SUCCESS,
   MQTT_CON_TIMEOUT,
   MQTT_CON_NO_WIFI,
+  MQTT_CON_NO_CON_MADE,
 };
 
 enum MessageSendState {
@@ -29,8 +30,10 @@ class NetworkManager {
     char *password;
 
     bool wifiConnected;
+    bool mqttConnectionMade; 
 
     String buildMqttMessage(struct Message *message);
+    MQTTConnectState connectMqtt();
 
   public:
     NetworkManager();
@@ -50,7 +53,15 @@ class NetworkManager {
      * @param mqttPort: Port on which the MQTT Server runs
      */
     MQTTConnectState connectMqtt(const char *mqttAddress, const int mqttPort);
-    
+
+    /**
+     * Tries to reestablishes the MQTT - Connection with the given server.
+     * Keep in mind that you should have calles connectMqtt at least one time
+     * before using this method. 
+     * 
+     * @returns State which indicates, if the connection attempt was successful.
+     */
+    MQTTConnectState reconnectMqtt(); 
     /**
       * Returns the current status of the wifi connection.
       */
