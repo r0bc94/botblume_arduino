@@ -68,8 +68,18 @@ MessageSendState NetworkManager::sendMessage(struct Message *message, const char
   }
 
   if (!this->mqttClient.connected()) {
-    return MSG_MQTT_NOT_CONNECTED;
-  } 
+    if (this->mqttConnectionMade) {
+      Serial.println("MQTT - Connection lost, trying to reconnect");
+      MQTTConnectState constate = this->reconnectMqtt();
+      if (constate != MQTTConnectState::MQTT_CON_SUCCESS) {
+        return MSG_MQTT_NOT_CONNECTED;
+      }
+    } else {
+      Serial.println("The Connection with the MQTT - Server was not established!");
+      Serial.println("Please connect to the MQTT - Server first, before using this method.");
+      return MSG_MQTT_NOT_CONNECTED;
+    }
+  }  
 
   String messageToSend = this->buildMqttMessage(message);
   bool sendState = this->mqttClient.publish(topic, messageToSend.c_str());
