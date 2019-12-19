@@ -58,6 +58,15 @@ MQTTConnectState NetworkManager::reconnectMqtt() {
   return this->connectMqtt();
 }
 
+bool NetworkManager::subscribeToTopic(const char *topic, callbackFunction cbFunc) {
+  this->mqttClient.setCallback(cbFunc);
+  return this->mqttClient.subscribe(topic);
+}
+
+bool NetworkManager::checkMqtt() {
+  return this->mqttClient.loop();
+}
+
 boolean NetworkManager::isMqttConnected() {
   return this->mqttClient.connected();
 }
@@ -89,7 +98,7 @@ MessageSendState NetworkManager::sendMessage(struct Message *message, const char
 
 String NetworkManager::buildMqttMessage(struct Message *message) {
   String str = String();
-  str = String(message->percentage) + "\n" + String(message->originalValue);
+  str = String(message->percentage) + PROPERTY_DELIMITER + String(message->originalValue) + PROPERTY_DELIMITER + String(message->requested);
   return str;
 }
 
