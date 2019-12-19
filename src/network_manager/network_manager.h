@@ -6,6 +6,7 @@
 
 #define MAX_WIFI_CONNECTION_RETRY_COUNT   1000
 #define MAX_MQTT_CONNECTION_RETRY_COUNT   100
+#define PROPERTY_DELIMITER ";"
 
 typedef void (*callbackFunction)(const char*, byte*, unsigned int);
 
