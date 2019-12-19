@@ -58,6 +58,15 @@ MQTTConnectState NetworkManager::reconnectMqtt() {
   return this->connectMqtt();
 }
 
+bool NetworkManager::subscribeToTopic(const char *topic, callbackFunction cbFunc) {
+  this->mqttClient.setCallback(cbFunc);
+  return this->mqttClient.subscribe(topic);
+}
+
+bool NetworkManager::checkMqtt() {
+  return this->mqttClient.loop();
+}
+
 boolean NetworkManager::isMqttConnected() {
   return this->mqttClient.connected();
 }
