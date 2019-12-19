@@ -18,7 +18,7 @@ const int mqttPort = 1883;
 NetworkManager netman;
 
 void callback(const char *topic, byte *payload, unsigned int length);
-void createMessageAndSend(void);
+void createMessageAndSend(boolean requested);
 
 void setup() {
   Serial.begin(9600);
@@ -32,13 +32,16 @@ void setup() {
 }
 
 void callback(const char *topic, byte *payload, unsigned int length) {
-  createMessageAndSend();
+  createMessageAndSend(true);
 }
 
-void createMessageAndSend(void) {
+void createMessageAndSend(boolean requested) {
   struct Message *msg = getMeasurement(A0);
+  msg->requested = requested;
+  
   Serial.println(msg->originalValue);
   Serial.println(msg->percentage);
+  Serial.println(msg->requested);
   Serial.println();
 
   MessageSendState result = netman.sendMessage(msg, TOPIC);
@@ -71,7 +74,7 @@ void loop() {
 
   if (counter * POLL_DELAY == STATE_DELAY) {
     Serial.println("Send State");
-    createMessageAndSend();
+    createMessageAndSend(false);
     counter = 0;
   }
   // put your main code here, to run repeatedly:

@@ -98,7 +98,7 @@ MessageSendState NetworkManager::sendMessage(struct Message *message, const char
 
 String NetworkManager::buildMqttMessage(struct Message *message) {
   String str = String();
-  str = String(message->percentage) + "\n" + String(message->originalValue);
+  str = String(message->percentage) + "\n" + String(message->originalValue) + "\n" + String(message->requested);
   return str;
 }
 
