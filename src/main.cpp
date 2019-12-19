@@ -65,9 +65,6 @@ void createMessageAndSend(void) {
 
 unsigned int counter = 0;
 void loop() {
-  // Serial.println(netman.checkMqtt());
-  // createMessageAndSend();
-  // Serial.println(netman.checkMqtt());
   netman.checkMqtt();
   delay(POLL_DELAY);
   counter += 1;
