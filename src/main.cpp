@@ -5,12 +5,12 @@
 #include "types/message.h"
 
 #define POLL_DELAY 100
-#define STATE_DELAY 6000
+#define STATE_DELAY 60000
 #define TOPIC "blume/1/status"
 #define SUB_TOPIC "blume/1/wasserstand"
 
-const char* ssid     = "~PrettyFlyForAWiFi~";         // The SSID (name) of the Wi-Fi network you want to connect to
-const char* password = "TN8Y=UL8Dz84n6v#";     // The password of the Wi-Fi network
+const char* ssid     = "YOUR_WIFI_SSID";         // The SSID (name) of the Wi-Fi network you want to connect to
+const char* password = "YOUR_WIFI_PASSWORD";     // The password of the Wi-Fi network
 
 const char *mqttIp = "192.168.1.5";
 const int mqttPort = 1883;
