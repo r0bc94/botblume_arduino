@@ -9,7 +9,7 @@ You can also _ping_ your arduino via an MQTT - Message to force a measurement.
 
 ### µC
 
-I only used a _poor mans arduino_ (aka _NodeMCU v3_) which a fried gifted
+I only used a _poor mans arduino_ (aka _NodeMCU v2_) which a fried gifted
 me. This however **should** not make a difference when deploying this
 application. 
 
