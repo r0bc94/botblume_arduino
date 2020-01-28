@@ -7,13 +7,13 @@ You can also _ping_ your arduino via an MQTT - Message to force a measurement.
 
 ## Used Hardware
 
-## µC
+### µC
 
 I only used a _poor mans arduino_ (aka _NodeMCU v3_) which a fried gifted
 me. This however **should** not make a difference when deploying this
 application. 
 
-## Soil Sensor
+### Soil Sensor
 
 The soil sensor which I used for this project is an analoge one. This 
 means that the measurement is indicated by a given voltage drop at the 
