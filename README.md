@@ -97,3 +97,15 @@ aggregatedValue;rawValue;forcedMeasurement
 If you want to force a measurement, you need to publish a message
 to the `blume/1/wasserstand` - Topic. _The content of this message
 is ignored._
+
+## Configuration
+
+You can also change some _settings_ by modifying the symbolic constants in
+the `main.cpp` - File. 
+
+The following settings can be changed: 
+
+* `POLL_DELAY`: Delay between each poll to new mqtt - messages.
+* `STATE_DELAY`: Number of Milliseconds which should be waited, before measure the grounds moisture and sends the state to the connected MQTT - Broker.
+* `TOPIC`: Name of the topic where the measurements should be published.
+* `SUB_TOPIC`: Name of the topic which can be used to trigger a measurement.
